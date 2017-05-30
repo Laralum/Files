@@ -2,7 +2,7 @@
     "items": [
         {
             "permission" : "laralum::files.access",
-            "trans": "laralum_files::general.files_list",
+            "trans": "laralum_files::general.file_list",
             "route": "laralum::files.index"
         },
         {

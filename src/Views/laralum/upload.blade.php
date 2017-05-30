@@ -2,7 +2,7 @@
     $settings = \Laralum\Files\Models\Settings::first();
 @endphp
 @extends('laralum::layouts.master')
-@section('icon', 'ion-ios-cloud-upload')
+@section('icon', 'ion-upload')
 @section('title', __('laralum_files::general.upload_file'))
 @section('subtitle', __('laralum_files::general.upload_file_desc'))
 @section('css')
@@ -11,7 +11,7 @@
 @section('breadcrumb')
     <ul class="uk-breadcrumb">
         <li><a href="{{ route('laralum::index') }}">@lang('laralum_files::general.home')</a></li>
-        <li><a href="{{ route('laralum::files.index') }}">@lang('laralum_files::general.files_list')</a></li>
+        <li><a href="{{ route('laralum::files.index') }}">@lang('laralum_files::general.file_list')</a></li>
         <li><span>@lang('laralum_files::general.upload_file')</span></li>
     </ul>
 @endsection
@@ -25,18 +25,9 @@
                         {{ __('laralum_files::general.upload_file') }}
                     </div>
                     <div class="uk-card-body">
-
-
-                        <form class="dropzone" action="{{ route('laralum::files.save') }}" method="POST">
-                            <input value="laralum/files" hidden="hidden" name="path"/>
-                            <input value="1" hidden="hidden" name="public"/>
-                            {{ csrf_field() }}
-                        </form>
-
-
-                        {!! \Laralum\Files\Models\File::formit('laralum/files', 1) !!}
-
-
+                        {!! \Laralum\Files\Models\File::form(1) !!}
+                        <br>
+                        {!! \Laralum\Files\Models\File::form(0) !!}
                     </div>
                 </div>
             </div>

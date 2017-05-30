@@ -25,7 +25,7 @@ if ($public_routes) {
 Route::group([
         'middleware' => [
             'web', 'laralum.base', 'laralum.auth',
-            // 'can:access-files',
+            'can:access,Laralum\Files\Models\File',
         ],
         'prefix'    => config('laralum.settings.base_url'),
         'namespace' => 'Laralum\Files\Controllers',
@@ -34,8 +34,10 @@ Route::group([
         Route::get('files', 'FileController@index')->name('files.index');
         Route::get('files/upload', 'FileController@upload')->name('files.upload');
         Route::post('files/upload', 'FileController@save')->name('files.save');
-        Route::get('files/{filename}/delete', 'FileController@confirmDestroy')->name('files.destroy.confirm');
-        Route::post('files/{filename}/delete', 'FileController@confirmDestroy')->name('files.destroy');
+        Route::get('files/{file}', 'FileController@display')->name('files.display');
+        Route::get('files/{file}/download', 'FileController@download')->name('files.download');
+        Route::get('files/{file}/delete', 'FileController@confirmDestroy')->name('files.destroy.confirm');
+        Route::delete('files/{file}/delete', 'FileController@destroy')->name('files.destroy');
     });
 
 // Settings Routes

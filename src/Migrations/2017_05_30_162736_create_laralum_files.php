@@ -15,11 +15,14 @@ class CreateLaralumFiles extends Migration
     {
         Schema::create('laralum_files', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
             $table->string('name');
-            $table->string('real_name');
+            $table->string('real_name')->nullable();
             $table->boolean('public');
             $table->string('path');
             $table->string('password')->nullable();
+            $table->integer('downloads')->default(0);
+            $table->integer('views')->default(0);
             $table->timestamps();
         });
     }
