@@ -1,0 +1,24 @@
+{
+    "name": "laralum/files",
+    "description": "Files module for laralum",
+    "require": {
+        "laralum/laralum": "^1.1.2",
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Erik Campobadal",
+            "email": "soc@erik.cat"
+        },
+        {
+            "name": "Aitor Riba",
+            "email": "contact@aitorriba.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Laralum\\Files\\": "./src"
+        }
+    },
+    "minimum-stability": "dev"
+}

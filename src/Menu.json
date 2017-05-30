@@ -1,0 +1,14 @@
+{
+    "items": [
+        {
+            "permission" : "laralum::files.access",
+            "trans": "laralum_files::general.files_list",
+            "route": "laralum::files.index"
+        },
+        {
+            "permission" : "laralum::files.upload",
+            "trans": "laralum_files::general.upload_file",
+            "route": "laralum::files.upload"
+        }
+    ]
+}
