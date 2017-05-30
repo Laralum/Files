@@ -5,6 +5,7 @@ namespace Laralum\Files;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Laralum\Files\Models\Settings;
+use Laralum\Files\Models\File;
 use Laralum\Files\Policies\FilePolicy;
 use Laralum\Files\Policies\SettingsPolicy;
 use Laralum\Permissions\PermissionsChecker;
@@ -17,7 +18,7 @@ class FilesServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        FilePolicy::class,
+        File::class => FilePolicy::class,
         Settings::class => SettingsPolicy::class,
     ];
 
@@ -68,12 +69,6 @@ class FilesServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('access-files', 'FilePolicy@access');
-        Gate::define('upload-files', 'FilePolicy@upload');
-        Gate::define('delete-files', 'FilePolicy@delete');
-        Gate::define('publish-files', 'FilePolicy@publish');
-        Gate::define('access-private-files', 'FilePolicy@view');
-        
         $this->publishes([
             __DIR__.'/Views/public' => resource_path('views/vendor/laralum_files/public'),
         ], 'laralum_files');
