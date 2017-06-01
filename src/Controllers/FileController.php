@@ -5,16 +5,15 @@ namespace Laralum\Files\Controllers;
 use Illuminate\Http\Request;
 use Laralum\Users\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use Laralum\Files\Models\File as FileORM;
+use Laralum\Files\Models\File;
 
 class FileController extends Controller
 {
     public function index()
     {
-        $files = FileORM::orderByDesc('id')->paginate(50);
+        $files = File::orderByDesc('id')->paginate(50);
         return view('laralum_files::laralum.index', ['files' => $files]);
     }
 
@@ -32,13 +31,12 @@ class FileController extends Controller
             'public' => 'required|boolean',
         ]);
 
-        $path = 'files';
+        $user = User::findOrFail(Auth::id());
 
-        $fileORM = FileORM::create([
-            'name'    => str_limit($file->getClientOriginalName(), 150, ''),
+        $fileORM = File::create([
+            'name'    => str_limit(chop($file->getClientOriginalName(),'.'.$file->getClientOriginalExtension()), 191, ''),
             'user_id' => Auth::id(),
-            'path'    => $path,
-            'public'  => $request->public,
+            'public'  => $user->can('publish', File::class) ? $request->public : false,
         ]);
 
         $fileORM->update([
@@ -47,53 +45,65 @@ class FileController extends Controller
 
         $name = $fileORM->id.'.'.$file->getClientOriginalExtension();
 
-        if ($request->public) {
-            $file->move($path, $name);
-        } else {
-            // Add private/ to ensure that path isn't public directly and avoid
-            // unwanted publish
-            Storage::putFileAs('private/'.$path, $file, $name);
-        }
+        Storage::putFileAs('laralum/files', $file, $name);
 
         return route('laralum::files.display', ['file' => $fileORM]);
     }
 
-    public function confirmDestroy(FileORM $file)
+    public function edit(File $file)
+    {
+        return view('laralum_files::laralum.edit', ['file' => $file]);
+    }
+
+    public function update(Request $request, File $file)
+    {
+        $this->authorize('update', File::class);
+        $this->validate($request, [
+            'name' => 'required|max:191',
+            'public' => 'required|boolean'
+        ]);
+
+        $user = User::findOrFail(Auth::id());
+
+        $file->update([
+            'name' => $request->name,
+            'public'  => $user->can('publish', File::class) ? $request->public : false,
+        ]);
+        $file->touch();
+        return redirect()->route('laralum::files.index')->with('success', __('laralum_files::general.file_updated', ['name' => $file->name]));
+    }
+
+    public function confirmDestroy(File $file)
     {
         return view('laralum::pages.confirmation', [
             'method'  => 'DELETE',
-            'message' => __('laralum_events::general.sure_del_files', ['file' => $file->name]),
+            'message' => __('laralum_files::general.sure_del_file', ['name' => $file->name]),
             'action'  => route('laralum::files.destroy', ['file' => $file->id]),
         ]);
     }
 
-    public function display(FileORM $file)
+    public function display(File $file)
     {
         $file->increment('views');
 
-        if ($file->public) {
-            $this->authorize('view', FileORM::class);
+        if (!$file->public) {
+            $this->authorize('view', File::class);
         }
 
         return response()->file($file->getPath(true));
     }
 
-    public function download(FileORM $file)
+    public function download(File $file)
     {
         $file->increment('downloads');
 
-        return response()->download($file->getPath(true), $file->name);
+        return response()->download($file->getPath(true), $file->name.'.'.$file->extension());
     }
 
-    public function destroy(FileORM $file)
+    public function destroy(File $file)
     {
-        if ($file->public) {
-            File::delete($file->getPath());
-            $file->delete();
-        } else {
-            Storage::delete($file->getPath());
-            $file->delete();
-        }
+        Storage::delete($file->getPath());
+        $file->delete();
 
         return redirect()->route('laralum::files.index')->with('success', __('laralum_files::general.file_deleted', ['name' => $file->name]));
     }

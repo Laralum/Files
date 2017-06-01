@@ -20,15 +20,12 @@ class File extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'real_name', 'user_id', 'public', 'path', 'password'];
+    protected $fillable = ['name', 'real_name', 'user_id', 'public', 'password'];
 
     public function getPath($absolute = false)
     {
-        if ($this->public) {
-            return 'files/'.$this->real_name;
-        }
         $path = $absolute ? storage_path('app/') : '';
-        return $path.'private/files/'.$this->real_name;
+        return $path.'laralum/files/'.$this->real_name;
     }
 
     public static function form($public = 1)
@@ -42,5 +39,48 @@ class File extends Model
             <input value='$public' hidden='hidden' name='public'/>
         </form>
         ";
+    }
+
+    public function extension() {
+        return pathinfo($this->getPath(true))['extension'];
+    }
+
+    public function type() {
+        if (in_array($this->extension(), ['mpg', 'mp3', 'wav', 'ogg', '3ga', 'aac', 'm4a', 'wma'])) {
+            return "music";
+        } elseif (in_array($this->extension(), ['rst', 'md', 'env', 'config', 'txt'])) {
+            return "text";
+        } elseif (in_array($this->extension(), ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'ico', 'psd', 'tga', 'tif', 'tiff', 'svg'])) {
+            return "image";
+        } elseif (in_array($this->extension(), ['wmv', 'mp4', 'avi', 'flv', 'mpeg', 'ogv'])) {
+            return "video";
+        } elseif (in_array($this->extension(), ['pdf', 'docx', 'doc'])) {
+            return "document";
+        } elseif (in_array($this->extension(), ['php', 'html', 'css', 'js', 'py', 'pyc', 'c', 'sql', 'asm', 'json'])) {
+            return "code";
+        } elseif (in_array($this->extension(), ['tar', '7z', 'zip'])) {
+            return "compressed";
+        }
+    }
+
+    public function icon() {
+        switch ($this->type()) {
+            case 'document':
+                return "ion-document";
+            case 'text':
+                return "ion-document-text";
+            case 'image':
+                return "ion-image";
+            case 'music':
+                return "ion-music-note";
+            case 'video':
+                return "ion-videocamera";
+            case 'code':
+                return "ion-code";
+            case 'compressed':
+                return "ion-briefcase";
+            default:
+                return "ion-document-text";
+        }
     }
 }

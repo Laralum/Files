@@ -19,8 +19,8 @@ class CreateLaralumFiles extends Migration
             $table->string('name');
             $table->string('real_name')->nullable();
             $table->boolean('public');
-            $table->string('path');
             $table->string('password')->nullable();
+            $table->integer('timer')->nullable();
             $table->integer('downloads')->default(0);
             $table->integer('views')->default(0);
             $table->timestamps();

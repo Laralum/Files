@@ -20,8 +20,8 @@
             @foreach ($files as $file)
                 <div>
                     <div class="uk-card uk-card-default uk-card-body uk-text-center">
-                        <span class="ion-document-text" style="font-size:40px"></span>
-                        <h3 class="uk-card-title uk-text-break">{{ $file->name }}</h3>
+                        <span class="{{ $file->icon() }}" style="font-size:40px"></span>
+                        <h3 class="uk-card-title uk-text-break">{{ $file->name }}<span class="uk-text-muted">.{{ $file->extension() }}</span></h3>
                         @if ($file->public)
                             <p class="uk-label uk-label-success">@lang('laralum_files::general.public')</p>
                         @else
@@ -36,6 +36,9 @@
                             </button>
                             <a class="btn uk-button uk-button-default uk-button-small uk-width-1-1 uk-margin-small-top" href="{{ route('laralum::files.download', ['file' => $file]) }}">
                                 @lang('laralum_files::general.download')
+                            </a>
+                            <a class="btn uk-button uk-button-default uk-button-small uk-width-1-1 uk-margin-small-top" href="{{ route('laralum::files.edit', ['file' => $file]) }}">
+                                @lang('laralum_files::general.edit')
                             </a>
                             <div class="uk-child-width-1-2 uk-margin-small-top" uk-grid>
                                 <div>

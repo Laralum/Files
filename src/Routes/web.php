@@ -17,7 +17,7 @@ if ($public_routes) {
             'namespace' => 'Laralum\Files\Controllers',
             'as'        => 'laralum_public::files.',
         ], function () use ($public_url) {
-            Route::post($public_url.'/{filename}', 'PublicFileController@show')->name('show');
+            Route::get($public_url.'/{file}', 'PublicFileController@display')->name('show');
         });
 }
 
@@ -35,6 +35,8 @@ Route::group([
         Route::get('files/upload', 'FileController@upload')->name('files.upload');
         Route::post('files/upload', 'FileController@save')->name('files.save');
         Route::get('files/{file}', 'FileController@display')->name('files.display');
+        Route::get('files/{file}/edit', 'FileController@edit')->name('files.edit');
+        Route::patch('files/{file}/edit', 'FileController@update')->name('files.update');
         Route::get('files/{file}/download', 'FileController@download')->name('files.download');
         Route::get('files/{file}/delete', 'FileController@confirmDestroy')->name('files.destroy.confirm');
         Route::delete('files/{file}/delete', 'FileController@destroy')->name('files.destroy');
