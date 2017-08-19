@@ -28,24 +28,13 @@ class File extends Model
         return $path.'laralum/files/'.$this->real_name;
     }
 
-    public static function form($public = 1)
+    public function extension()
     {
-        $trans = $public ? __('laralum_files::general.drop_public_files') : __('laralum_files::general.drop_private_files');
-        return
-        "
-        <form class='dropzone' action='".route('laralum::files.save')."' method='POST'>
-            ".csrf_field().
-            "<div class='dz-message'><span class='ion-ios-cloud-upload-outline' style='font-size:50px;vertical-align:middle'></span>&emsp;".$trans."</div>
-            <input value='$public' hidden='hidden' name='public'/>
-        </form>
-        ";
-    }
-
-    public function extension() {
         return pathinfo($this->getPath(true))['extension'];
     }
 
-    public function type() {
+    public function type()
+    {
         if (in_array($this->extension(), ['mpg', 'mp3', 'wav', 'ogg', '3ga', 'aac', 'm4a', 'wma'])) {
             return "music";
         } elseif (in_array($this->extension(), ['rst', 'md', 'env', 'config', 'txt'])) {
@@ -63,7 +52,8 @@ class File extends Model
         }
     }
 
-    public function icon() {
+    public function icon()
+    {
         switch ($this->type()) {
             case 'document':
                 return "ion-document";

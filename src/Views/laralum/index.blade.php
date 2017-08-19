@@ -31,7 +31,7 @@
                         <span class="ion-eye"></span>&nbsp;&nbsp;{{ $file->views }}&emsp;&emsp;<span class="ion-android-download"></span>&nbsp;&nbsp;{{ $file->downloads }}
                         <div class="uk-margin-small-top">
                             <br>
-                            <button class="btn uk-button uk-button-default uk-button-small uk-width-1-1" data-clipboard-text="{{ route('laralum::files.display', ['file' => $file]) }}">
+                            <button class="btn uk-button uk-button-default uk-button-small uk-width-1-1" data-clipboard-text="{{ $file->public ? route('laralum_public::files.show', ['file' => $file->real_name]) : route('laralum::files.display', ['file' => $file->real_name]) }}">
                                 @lang('laralum_files::general.copy_to_clipboard')
                             </button>
                             <a class="btn uk-button uk-button-default uk-button-small uk-width-1-1 uk-margin-small-top" href="{{ route('laralum::files.download', ['file' => $file]) }}">

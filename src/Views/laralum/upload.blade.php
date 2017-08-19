@@ -25,9 +25,20 @@
                         {{ __('laralum_files::general.upload_file') }}
                     </div>
                     <div class="uk-card-body">
-                        {!! \Laralum\Files\Models\File::form(1) !!}
+                        <form class='dropzone' action="{{ route('laralum::files.save') }}" method='POST'>
+                            {{ csrf_field() }}
+                            <div class='dz-message'><span class='ion-ios-cloud-upload-outline' style='font-size:50px;vertical-align:middle'></span>&emsp;@lang('laralum_files::general.drop_public_files')</div>
+                            <input value='1' hidden='hidden' name='public'/>
+                        </form>
+
                         <br>
-                        {!! \Laralum\Files\Models\File::form(0) !!}
+
+                        <form class='dropzone' action="{{ route('laralum::files.save') }}" method='POST'>
+                            {{ csrf_field() }}
+                            <div class='dz-message'><span class='ion-ios-cloud-upload-outline' style='font-size:50px;vertical-align:middle'></span>&emsp;@lang('laralum_files::general.drop_private_files')</div>
+                            <input value='0' hidden='hidden' name='public'/>
+                        </form>
+
                     </div>
                 </div>
             </div>

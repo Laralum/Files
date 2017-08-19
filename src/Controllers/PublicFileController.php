@@ -1,6 +1,7 @@
 <?php
 
 namespace Laralum\Files\Controllers;
+
 use Laralum\Users\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -10,13 +11,19 @@ use Illuminate\Http\Request;
 
 class PublicFileController extends Controller
 {
-    public function display(File $file)
+    public function display($file)
     {
-        $file->increment('views');
+        $file = File::where('real_name', $file)->first();
+
+        if (!$file) {
+            abort(404, 'File not Found');
+        }
 
         if (!$file->public) {
             $this->authorize('view', File::class);
         }
+
+        $file->increment('views');
 
         return response()->file($file->getPath(true));
     }
