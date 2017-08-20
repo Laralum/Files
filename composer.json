@@ -2,7 +2,7 @@
     "name": "laralum/files",
     "description": "Files module for laralum",
     "require": {
-        "laralum/laralum": "^1.1.2",
+        "laralum/laralum": "^1.1.2"
     },
     "license": "MIT",
     "authors": [
