@@ -1,9 +1,9 @@
 <?php
 
-use Laralum\Files\Models\Settings;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Laralum\Files\Models\Settings;
 
 class CreateLaralumFilesSettings extends Migration
 {
@@ -22,7 +22,7 @@ class CreateLaralumFilesSettings extends Migration
         });
 
         Settings::create([
-            'public_url'  => 'files',
+            'public_url'     => 'files',
             'public_routes'  => true,
         ]);
     }

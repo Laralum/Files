@@ -2,12 +2,8 @@
 
 namespace Laralum\Files\Controllers;
 
-use Laralum\Users\Models\User;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 use Laralum\Files\Models\File;
-use Illuminate\Http\Request;
 
 class PublicFileController extends Controller
 {
