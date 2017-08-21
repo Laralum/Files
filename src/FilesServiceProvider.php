@@ -4,8 +4,8 @@ namespace Laralum\Files;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-use Laralum\Files\Models\Settings;
 use Laralum\Files\Models\File;
+use Laralum\Files\Models\Settings;
 use Laralum\Files\Policies\FilePolicy;
 use Laralum\Files\Policies\SettingsPolicy;
 use Laralum\Permissions\PermissionsChecker;
@@ -18,7 +18,7 @@ class FilesServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        File::class => FilePolicy::class,
+        File::class     => FilePolicy::class,
         Settings::class => SettingsPolicy::class,
     ];
 

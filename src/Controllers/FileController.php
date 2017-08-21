@@ -2,18 +2,19 @@
 
 namespace Laralum\Files\Controllers;
 
-use Illuminate\Http\Request;
-use Laralum\Users\Models\User;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laralum\Files\Models\File;
+use Laralum\Users\Models\User;
 
 class FileController extends Controller
 {
     public function index()
     {
         $files = File::orderByDesc('id')->paginate(50);
+
         return view('laralum_files::laralum.index', ['files' => $files]);
     }
 
@@ -34,13 +35,13 @@ class FileController extends Controller
         $user = User::findOrFail(Auth::id());
 
         $fileORM = File::create([
-            'name'    => str_limit(chop($file->getClientOriginalName(),'.'.$file->getClientOriginalExtension()), 191, ''),
+            'name'    => str_limit(rtrim($file->getClientOriginalName(), '.'.$file->getClientOriginalExtension()), 191, ''),
             'user_id' => Auth::id(),
             'public'  => $user->can('publish', File::class) ? $request->public : false,
         ]);
 
         $fileORM->update([
-            'real_name' => $fileORM->id.'.'.$file->getClientOriginalExtension()
+            'real_name' => $fileORM->id.'.'.$file->getClientOriginalExtension(),
         ]);
 
         $name = $fileORM->id.'.'.$file->getClientOriginalExtension();
@@ -59,17 +60,18 @@ class FileController extends Controller
     {
         $this->authorize('update', File::class);
         $this->validate($request, [
-            'name' => 'required|max:191',
-            'public' => 'required|boolean'
+            'name'   => 'required|max:191',
+            'public' => 'required|boolean',
         ]);
 
         $user = User::findOrFail(Auth::id());
 
         $file->update([
-            'name' => $request->name,
+            'name'    => $request->name,
             'public'  => $user->can('publish', File::class) ? $request->public : false,
         ]);
         $file->touch();
+
         return redirect()->route('laralum::files.index')->with('success', __('laralum_files::general.file_updated', ['name' => $file->name]));
     }
 

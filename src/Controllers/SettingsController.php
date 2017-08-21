@@ -3,8 +3,8 @@
 namespace Laralum\Files\Controllers;
 
 use App\Http\Controllers\Controller;
-use Laralum\Files\Models\Settings;
 use Illuminate\Http\Request;
+use Laralum\Files\Models\Settings;
 
 class SettingsController extends Controller
 {

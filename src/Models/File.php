@@ -2,9 +2,7 @@
 
 namespace Laralum\Files\Models;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
-use Laralum\Files\Models\Settings;
 
 class File extends Model
 {
@@ -25,6 +23,7 @@ class File extends Model
     public function getPath($absolute = false)
     {
         $path = $absolute ? storage_path('app/') : '';
+
         return $path.'laralum/files/'.$this->real_name;
     }
 
@@ -36,19 +35,19 @@ class File extends Model
     public function type()
     {
         if (in_array($this->extension(), ['mpg', 'mp3', 'wav', 'ogg', '3ga', 'aac', 'm4a', 'wma'])) {
-            return "music";
+            return 'music';
         } elseif (in_array($this->extension(), ['rst', 'md', 'env', 'config', 'txt'])) {
-            return "text";
+            return 'text';
         } elseif (in_array($this->extension(), ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'ico', 'psd', 'tga', 'tif', 'tiff', 'svg'])) {
-            return "image";
+            return 'image';
         } elseif (in_array($this->extension(), ['wmv', 'mp4', 'avi', 'flv', 'mpeg', 'ogv'])) {
-            return "video";
+            return 'video';
         } elseif (in_array($this->extension(), ['pdf', 'docx', 'doc'])) {
-            return "document";
+            return 'document';
         } elseif (in_array($this->extension(), ['php', 'html', 'css', 'js', 'py', 'pyc', 'c', 'sql', 'asm', 'json'])) {
-            return "code";
+            return 'code';
         } elseif (in_array($this->extension(), ['tar', '7z', 'zip'])) {
-            return "compressed";
+            return 'compressed';
         }
     }
 
@@ -56,21 +55,21 @@ class File extends Model
     {
         switch ($this->type()) {
             case 'document':
-                return "ion-document";
+                return 'ion-document';
             case 'text':
-                return "ion-document-text";
+                return 'ion-document-text';
             case 'image':
-                return "ion-image";
+                return 'ion-image';
             case 'music':
-                return "ion-music-note";
+                return 'ion-music-note';
             case 'video':
-                return "ion-videocamera";
+                return 'ion-videocamera';
             case 'code':
-                return "ion-code";
+                return 'ion-code';
             case 'compressed':
-                return "ion-briefcase";
+                return 'ion-briefcase';
             default:
-                return "ion-document-text";
+                return 'ion-document-text';
         }
     }
 }
