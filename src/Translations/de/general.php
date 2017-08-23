@@ -1,11 +1,13 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
-    | Events Language Lines
+    | Files Language Lines
     |--------------------------------------------------------------------------
     */
+
     'home'                      => 'Zuhause',
     'name'                      => 'Name',
     'actions'                   => 'Aktionen',
@@ -19,7 +21,6 @@ return [
     'edit_file'                 => 'Datei #:id ändern',
     'edit_file_desc'            => "Sie editieren die Datei #:id mit dem Namen ':name' hochgeladen vor :time_ago",
     'title'                     => 'Titel',
-    'title_ph'                  => 'Geben Sie einen Titel ein',
     'public'                    => 'Öffentlich',
     'private'                   => 'Privat',
     'view'                      => 'Anzeigen',

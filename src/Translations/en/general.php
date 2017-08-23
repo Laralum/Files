@@ -21,7 +21,6 @@ return [
     'edit_file'         => 'Edit file #:id',
     'edit_file_desc'    => "You're editing file #:id with name ':name' uploded :time_ago",
     'title'             => 'Title',
-    'title_ph'          => 'Enter the title for this event',
     'public'            => 'Public',
     'private'           => 'Private',
     'view'              => 'View',
